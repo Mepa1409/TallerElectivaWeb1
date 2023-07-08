@@ -1,0 +1,22 @@
+{
+  "cars": {
+    "45": {
+      "brand": "45",
+      "value": "Mazda",
+      "color": "Negro",
+      "model": "2023"
+    },
+    "457": {
+      "brand": "Mustang GT",
+      "value": "75000000",
+      "color": "Rojo",
+      "model": "2021"
+    },
+    "2597": {
+      "brand": "2597",
+      "value": "Hyunday",
+      "color": "azul",
+      "model": "2015"
+    }
+  }
+}
