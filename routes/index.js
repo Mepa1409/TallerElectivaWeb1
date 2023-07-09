@@ -20,14 +20,14 @@ routes.post('/dashBoard', (req, res) => {
         // console.log(key, " ", value)
         const userFromMap = user.get(key).user
         const passwordFromMap = user.get(key).password
-       // console.log(userFromMap, passwordFromMap)
+        // console.log(userFromMap, passwordFromMap)
         if (inputUser === userFromMap && inputPassword === passwordFromMap) {
             req.session.loggedIn = true
-           return  res.render('dashboard.ejs', {title: 'Dashboard'})
+            return res.render('dashboard.ejs', {title: 'Dashboard'})
 
         }
     }
-   return  res.redirect('/')
+    return res.redirect('/')
 
 })
 
@@ -43,15 +43,15 @@ routes.get('/dashBoard', (req, res) => {
 routes.get('/newConsult', (req, res) => {
     if (req.session.loggedIn) {
         res.render('consult.ejs', {title: 'Pagina consulta'})
-    }else {
+    } else {
         res.redirect('/')
-        }
+    }
 })
 
 routes.get('/register', (req, res) => {
     if (req.session.loggedIn === true) {
         res.render('register.ejs', {title: 'Pagina Registro'})
-    }else {
+    } else {
         res.redirect('/')
     }
 
@@ -64,77 +64,89 @@ routes.get('/logOut', (req, res) => {
     }
 })
 
-routes.get('/clients',(req,res)=>{
-    res.render('clients.ejs', {title: 'Lista De Clientes', data:client})
+routes.get('/clients', (req, res) => {
+    if (req.session.loggedIn) {
+        res.render('clients.ejs', {title: 'Lista De Clientes', data: client})
+    } else {
+        res.redirect('/')
+    }
 })
 
 
-routes.get('/cars',(req,res)=>{
-    res.render('cars.ejs', {title: 'Lista De Autos', data:cars})
+routes.get('/cars', (req, res) => {
+    if (req.session.loggedIn) {
+        res.render('cars.ejs', {title: 'Lista De Autos', data: cars})
+    }else {
+        res.redirect('/')
+    }
 })
 
 
-routes.post('/registerClient',(req,res)=>{
-    const {InputId,InputName,InputLastName,InputPhone,InputAdress} = req.body
+routes.post('/registerClient', (req, res) => {
+    const {InputId, InputName, InputLastName, InputPhone, InputAdress} = req.body
 
-    client.set(InputId,{'name':InputName,'lastname':InputLastName,'phone':InputPhone,'address': InputAdress})
-    
+    client.set(InputId, {'name': InputName, 'lastname': InputLastName, 'phone': InputPhone, 'address': InputAdress})
+
     // Leer el contenido actual del archivo JSON
     const jsonContent = fs.readFileSync(filePath, 'utf8');
     const data = JSON.parse(jsonContent);
-  
+
 // Parsear el contenido JSON a un objeto JavaScript
 
 // Obtener el objeto "customer" del JSON
     const customerObject = data.customer;
 
-  // Agregar el nuevo registro al objeto 'data'
-     customerObject[InputId] = {
-    name: InputName,
-    lastname: InputLastName,
-    phone: InputPhone,
-    address: InputAdress
-  };
+    // Agregar el nuevo registro al objeto 'data'
+    customerObject[InputId] = {
+        name: InputName,
+        lastname: InputLastName,
+        phone: InputPhone,
+        address: InputAdress
+    };
 
-   // Convertir el objeto 'data' en una cadena JSON
-  const updatedJsonContent = JSON.stringify(data, null, 2);
+    // Convertir el objeto 'data' en una cadena JSON
+    const updatedJsonContent = JSON.stringify(data, null, 2);
 
-   // Escribir el contenido actualizado en el archivo JSON
-   fs.writeFileSync(filePath, updatedJsonContent, 'utf8');
- 
-     res.redirect('/dashBoard')
- })
- 
- routes.post('/registerCar',(req,res)=>{
-    const {InputIdCar,InputBrand,InputValue,InputColor,InputModel} = req.body
+    // Escribir el contenido actualizado en el archivo JSON
+    fs.writeFileSync(filePath, updatedJsonContent, 'utf8');
 
-    cars.set(InputIdCar,{'brand':InputBrand,'value':InputValue,'color':InputColor,'model': InputModel})
-    
+    if (req.session.loggedIn) {
+        res.redirect('/dashBoard')
+    }else{
+        res.redirect('/')
+    }
+})
+
+routes.post('/registerCar', (req, res) => {
+    const {InputIdCar, InputBrand, InputValue, InputColor, InputModel} = req.body
+
+    cars.set(InputIdCar, {'brand': InputBrand, 'value': InputValue, 'color': InputColor, 'model': InputModel})
+
     // Leer el contenido actual del archivo JSON
     const jsonContent = fs.readFileSync(filePathCars, 'utf8');
     const data = JSON.parse(jsonContent);
-  
+
 // Parsear el contenido JSON a un objeto JavaScript
 
 // Obtener el objeto "cars" del JSON
     const customerObject = data.cars;
 
-  // Agregar el nuevo registro al objeto 'data'
-     customerObject[InputIdCar] = {
-    brand: InputIdCar,
-    value: InputBrand,
-    color: InputColor,
-    model: InputModel
-  };
+    // Agregar el nuevo registro al objeto 'data'
+    customerObject[InputIdCar] = {
+        brand: InputBrand,
+        value: InputValue,
+        color: InputColor,
+        model: InputModel
+    };
 
-   // Convertir el objeto 'data' en una cadena JSON
-  const updatedJsonContent = JSON.stringify(data, null, 2);
+    // Convertir el objeto 'data' en una cadena JSON
+    const updatedJsonContent = JSON.stringify(data, null, 2);
 
-   // Escribir el contenido actualizado en el archivo JSON
-   fs.writeFileSync(filePathCars, updatedJsonContent, 'utf8');
- 
-     res.redirect('/dashBoard')
- })
- 
+    // Escribir el contenido actualizado en el archivo JSON
+    fs.writeFileSync(filePathCars, updatedJsonContent, 'utf8');
+
+    res.redirect('/dashBoard')
+})
+
 
 module.exports = routes

@@ -1,12 +1,13 @@
 <%- include('./templates/header.ejs') %>
 
-    <body>
-        <%- include('./templates/nav.ejs') %>
-
-            <h3>Pagina de Registro</h3>
-            <div>
+<body>
+<%- include('./templates/nav.ejs') %>
+<div class="container">
+    <h3 class="text-center">Pagina de Registro</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="rounded-3 sizeDiv">
                 <form action="/registerClient" method="post">
-
                     <legend>Ingrese Los Datos Del Cliente..</legend>
                     <div class="mb-3">
                         <label for="InputId" class="form-label">Numero De Cedula</label>
@@ -24,23 +25,18 @@
                         <label for="InputPhone" class="form-label">Celular</label>
                         <input type="number" id="InputPhone" name="InputPhone" class="form-control">
                     </div>
-    
                     <div class="mb-3">
                         <label for="InputAdress" class="form-label">Dirección</label>
                         <input type="text" id="InputAdress" name="InputAdress" class="form-control">
                     </div>
-                    
-                    </div>
                     <button type="submit" class="btn btn-primary">Registrar Cliente</button>
-    
                 </form>
-
             </div>
-
-            <div>
+        </div>
+        <div class="col-md-6">
+            <div class="sizeDiv">
                 <form action="/registerCar" method="post">
-
-                    <legend>Ingrese Del Automovil..</legend>
+                    <legend>Ingrese Los Datos Del Automovil..</legend>
                     <div class="mb-3">
                         <label for="InputIdCar" class="form-label">Id</label>
                         <input type="number" id="InputIdCar" name="InputIdCar" class="form-control">
@@ -57,20 +53,19 @@
                         <label for="InputColor" class="form-label">Color</label>
                         <input type="text" id="InputColor" name="InputColor" class="form-control">
                     </div>
-    
                     <div class="mb-3">
                         <label for="InputModel" class="form-label">Modelo</label>
                         <input type="number" id="InputModel" name="InputModel" class="form-control">
                     </div>
-                    
-                    </div>
-                    <button type="submit" class="btn btn-primary">Registrar Vehiculo</button>
-    
+                    <button type="submit" class="btn btn-primary ">Registrar Vehiculo</button>
                 </form>
             </div>
-            
+        </div>
+    </div>
+</div>
 
-            <%- include('./templates/Footer.ejs') %>
-    </body>
 
-    </html>
+<%- include('./templates/Footer.ejs') %>
+</body>
+
+</html>
